@@ -6,7 +6,23 @@ import { Course } from "./course";
 })
 export class CourseService {
     retrieveAll(): Course[] {
-        return COURSES
+        return COURSES;
+    }
+
+    retrieveById(id: number): Course{
+        return COURSES.find(
+            (courseIterator) => courseIterator.id_number === id
+        );
+    }
+
+    save(course: Course): void {
+        if (course.id_number) {
+            const index = COURSES.findIndex(
+                (courseIterator) => courseIterator.id_number === course.id_number
+            );
+            
+            COURSES[index] = course;
+        }
     }
 }
 
