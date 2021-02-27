@@ -16,18 +16,20 @@ export class CourseService {
         return this.httpClient.get<Course[]>(this.coursesUrl);
     }
 
-    retrieveById(id: number): Observable<Course> {
+    retrieveById(id: number): Observable<Course> { 
         return this.httpClient.get<Course>(`${this.coursesUrl}/${id}`);
     }
 
-    save(course: Course): void {
+    save(course: Course): Observable<Course> {
         if (course.id_number) {
-            const index = COURSES.findIndex(
-                (courseIterator) => courseIterator.id_number === course.id_number
-            );
-
-            COURSES[index] = course;
+            return this.httpClient.put<Course>(`${this.coursesUrl}/${course.id_number}`, course);
+        } else{
+            return this.httpClient.post<Course>(`${this.coursesUrl}`, course);
         }
+    }
+
+    deleteById(id: number): Observable<any>{
+        return this.httpClient.delete<any>(`${this.coursesUrl}/${id}`);
     }
 }
 
